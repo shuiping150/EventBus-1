@@ -27,7 +27,9 @@ namespace Snotyak.EventBus
 		public void Post(object e){
 			foreach(object instance in _subscribers){
 				foreach(MethodInfo method in GetSubscribedMethods(instance.GetType (), e)){
-					method.Invoke (instance, new object[]{e});
+					try{
+						method.Invoke (instance, new object[]{e});
+					}catch(TargetInvocationException){}
 				}
 			}
 		}
